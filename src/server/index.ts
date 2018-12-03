@@ -1,4 +1,4 @@
-import {HttpServer} from './httpServer';
+import {HttpServer} from './HttpServer';
 import {RequestHandler} from 'express';
 import CONTROLLERS from '../controllers';
 import {Application} from "express";

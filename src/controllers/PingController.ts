@@ -1,4 +1,4 @@
-import {HttpServer} from '../server/httpServer';
+import {HttpServer} from '../server/HttpServer';
 import Controller from "./Controller";
 
 export default class PingController implements Controller {

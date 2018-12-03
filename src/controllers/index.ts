@@ -1,5 +1,7 @@
-import PingController from './pingController';
+import PingController from './PingController';
+import PhotoAlbumController from "./PhotoAlbumController";
 
 export default [
-    new PingController()
+    new PingController(),
+    new PhotoAlbumController()
 ];
