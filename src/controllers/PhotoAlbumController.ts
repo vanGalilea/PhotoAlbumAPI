@@ -1,6 +1,8 @@
 import {HttpServer} from '../server/HttpServer';
 import Controller from "./Controller";
 import {Request, Response} from 'express';
+import PhotoAlbumFactory from "../models/PhotoAlbum";
+import DatabaseProvider from "../db";
 
 export default class PhotoAlbumController implements Controller {
     public initialize(httpServer: HttpServer): void {
@@ -10,14 +12,38 @@ export default class PhotoAlbumController implements Controller {
     }
 
     private async list(req: Request, res: Response): Promise<void> {
-        console.log("list fired")
+        const sequelize = DatabaseProvider.getConnection();
+        const photoAlbum = PhotoAlbumFactory(sequelize);
+        try {
+            const paList = await photoAlbum.findAll();
+            res.send(paList);
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     private async getById(req: Request, res: Response): Promise<void> {
-        console.log("getById fired with id ", req.params.id)
+        const sequelize = DatabaseProvider.getConnection();
+        const photoAlbum = PhotoAlbumFactory(sequelize);
+        try {
+            const pa = await photoAlbum.findByPk(req.params.id);
+            pa ? res.send(pa) : res.sendStatus(404);
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     private async generatePdfById(req: Request, res: Response): Promise<void> {
-        console.log("generatePdfById fired with id ", req.params.id)
+        // console.log("generatePdfById fired with id ", req.params.id)
+        const sequelize = DatabaseProvider.getConnection();
+        const photoAlbum = PhotoAlbumFactory(sequelize);
+        sequelize.sync()
+            .then(() => photoAlbum.create({
+                title: 'My Album new',
+                description: 'some description new'
+            }))
+            .then(album => {
+                res.json(album.toJSON());
+            });
     }
 }
