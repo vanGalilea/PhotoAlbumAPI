@@ -13,5 +13,7 @@ DatabaseProvider.configure({
     dialect: process.env.DATABASE_DIALECT || 'postgres'
 });
 
+DatabaseProvider.getConnection();
+
 const server = new ApiServer();
 server.start(+process.env.PORT || 8080);
