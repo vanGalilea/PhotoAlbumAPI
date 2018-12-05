@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import ApiServer from './server';
 import DatabaseProvider from "./db";
-import * as ORM from "sequelize";
 
 dotenv.config();
 
