@@ -1,9 +1,9 @@
-import PhotoAlbum from './PhotoAlbum';
+import Album from './Album';
 import Page from "./Page";
 import Photo from "./Photo";
 
 export default {
-    PhotoAlbum,
+    Album,
     Page,
     Photo
 }

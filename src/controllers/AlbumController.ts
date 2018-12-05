@@ -1,9 +1,9 @@
 import {HttpServer} from '../server/HttpServer';
-import Controller from "./Controller";
+import IController from "./IController";
 import {Request, Response} from 'express';
 import DatabaseProvider from "../db";
 
-export default class PhotoAlbumController implements Controller {
+export default class AlbumController implements IController {
     public initialize(httpServer: HttpServer): void {
         httpServer.get('/albums', this.list);
         httpServer.get('/album/:id', this.getById);
@@ -11,13 +11,13 @@ export default class PhotoAlbumController implements Controller {
     }
 
     private async list(req: Request, res: Response): Promise<void> {
-        const {PhotoAlbum, Page} = DatabaseProvider.getModels();
+        const {Album, Page} = DatabaseProvider.getModels();
         try {
-            const paList = await PhotoAlbum.findAll({
+            const paList = await Album.findAll({
                 include: [{
-                    association: PhotoAlbum.Pages,
+                    association: Album.Pages,
                     include: Page.Photos
-                }]
+                }] as any
             });
             paList ? res.send(paList) : res.sendStatus(404);
         } catch (e) {
@@ -26,13 +26,13 @@ export default class PhotoAlbumController implements Controller {
     }
 
     private async getById(req: Request, res: Response): Promise<void> {
-        const {PhotoAlbum, Page} = DatabaseProvider.getModels();
+        const {Album, Page} = DatabaseProvider.getModels();
         try {
-            const pa = await PhotoAlbum.findByPk(req.params.id, {
+            const pa = await Album.findByPk(req.params.id, {
                 include: [{
-                    association: PhotoAlbum.Pages,
+                    association: Album.Pages,
                     include: Page.Photos
-                }]
+                }] as any
             });
             console.log(pa);
             pa ? res.send(pa) : res.sendStatus(404);
@@ -43,10 +43,10 @@ export default class PhotoAlbumController implements Controller {
 
     private async generatePdfById(req: Request, res: Response): Promise<void> {
         const sequelize = DatabaseProvider.getConnection();
-        const {PhotoAlbum, Page} = DatabaseProvider.getModels();
+        const {Album, Page} = DatabaseProvider.getModels();
 
         sequelize.sync()
-            .then(() => PhotoAlbum.create(
+            .then(() => Album.create(
                 {
                     title: "Gerri album",
                     description: "The greatest journalist",
@@ -76,9 +76,9 @@ export default class PhotoAlbumController implements Controller {
                 },
                 {
                     include: [{
-                        association: PhotoAlbum.Pages,
+                        association: Album.Pages,
                         include: Page.Photos
-                    }]
+                    }] as any
                 }
             ))
             .then(album => {

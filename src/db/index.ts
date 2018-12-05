@@ -1,26 +1,26 @@
 import * as ORM from 'sequelize';
-import {IncludeAssociation, IncludeOptions, Model, Options} from 'sequelize';
+import {IncludeAssociation, Options} from 'sequelize';
 import MODELS from "../models";
-import {PhotoAlbumAttrs} from "../models/PhotoAlbum";
-import {PageAttrs} from "../models/Page";
-import {PhotoAttrs} from "../models/Photo";
+import {IAlbumAttrs} from "../models/Album";
+import {IPageAttrs} from "../models/Page";
+import {IPhotoAttrs} from "../models/Photo";
 
-interface modelAssociation {
-    [key: string]: IncludeAssociation | any
+interface IModelAssociation {
+    [key: string]: IncludeAssociation
 };
 
-type genericAttrs = PhotoAlbumAttrs | PageAttrs| PhotoAttrs;
+type genericAttrs = IAlbumAttrs | IPageAttrs| IPhotoAttrs;
 type modelInstance = ORM.Instance<genericAttrs> & genericAttrs;
-type genericProjectModel = ORM.Model<modelInstance, genericAttrs> & modelAssociation;
+type genericProjectModel = ORM.Model<modelInstance, genericAttrs> & IModelAssociation;
 
-interface modelsCollection {
+interface IModelsCollection {
     [key: string]: genericProjectModel
 };
 
 export default class DatabaseProvider {
     private static configuration: Options;
     private static connection: ORM.Sequelize;
-    private static models: modelsCollection = {};
+    private static models: IModelsCollection = {};
 
     public static configure(databaseConfiguration: Options): void {
         DatabaseProvider.configuration = databaseConfiguration;
@@ -36,7 +36,6 @@ export default class DatabaseProvider {
                 console.log('Connection has been established successfully. Adding models');
                 DatabaseProvider.addModels(sequelize);
                 DatabaseProvider.associateModels();
-                DatabaseProvider.syncDB();
             })
             .catch((e)=> console.error('Unable to connect to the database:', e));
         return DatabaseProvider.connection = sequelize;
@@ -46,20 +45,20 @@ export default class DatabaseProvider {
          Object.keys(MODELS).forEach((key: string) => DatabaseProvider.models[key] = MODELS[key](sequelize));
     }
 
-    public static getModels(): modelsCollection {
+    public static getModels(): IModelsCollection {
         return DatabaseProvider.models;
     }
 
     private static syncDB(): void {
         const {models} = DatabaseProvider;
-        Object.values(models).forEach((model: genericProjectModel)=> model.sync({force: true}));
+        Object.values(models).forEach((model)=> model.sync({force: true}));
     }
 
     private static associateModels(): void {
         const {models} = DatabaseProvider;
-        const {PhotoAlbum, Page, Photo} = models;
-        DatabaseProvider.models.PhotoAlbum.Pages = PhotoAlbum.hasMany(Page);
-        DatabaseProvider.models.Page.PhotoAlbum = Page.belongsTo(PhotoAlbum);
+        const {Album, Page, Photo} = models;
+        DatabaseProvider.models.Album.Pages = Album.hasMany(Page);
+        DatabaseProvider.models.Page.Album = Page.belongsTo(Album);
         DatabaseProvider.models.Page.Photos = Page.hasMany(Photo);
         DatabaseProvider.models.Photo.Page = Photo.belongsTo(Page);
     }

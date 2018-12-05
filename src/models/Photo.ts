@@ -1,19 +1,19 @@
 import * as ORM from 'sequelize';
 import {SequelizeAttributes} from "../types";
-import {PageAttrs} from "./Page";
+import {IPageAttrs} from "./Page";
 
-export interface PhotoAttrs {
+export interface IPhotoAttrs {
     id?: number
     url: string
     createdAt?: string
     updatedAt?: string,
-    Page?: PageAttrs
+    Page?: IPageAttrs
 }
 
-export type PhotoInstance = ORM.Instance<PhotoAttrs> & PhotoAttrs;
+export type PhotoInstance = ORM.Instance<IPhotoAttrs> & IPhotoAttrs;
 
 export default (sequelize: ORM.Sequelize) => {
-    const attributes: SequelizeAttributes<PhotoAttrs> = {
+    const attributes: SequelizeAttributes<IPhotoAttrs> = {
         id: {
             type: ORM.INTEGER,
             primaryKey: true,
@@ -21,7 +21,7 @@ export default (sequelize: ORM.Sequelize) => {
         },
         url: ORM.STRING
     };
-    return sequelize.define<PhotoInstance, PhotoAttrs>("Photo", attributes);
+    return sequelize.define<PhotoInstance, IPhotoAttrs>("Photo", attributes);
 };
 
 
