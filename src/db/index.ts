@@ -1,10 +1,17 @@
 import * as ORM from 'sequelize';
-import { Options } from 'sequelize';
+import {IncludeAssociation, IncludeOptions, Model, Options} from 'sequelize';
 import MODELS from "../models";
-import {PhotoAlbumAttrs, PhotoAlbumInstance} from "../models/PhotoAlbum";
-import {PageAttrs, PageInstance} from "../models/Page";
+import {PhotoAlbumAttrs} from "../models/PhotoAlbum";
+import {PageAttrs} from "../models/Page";
+import {PhotoAttrs} from "../models/Photo";
 
-type genericProjectModel = ORM.Model<PhotoAlbumInstance | PageInstance, PhotoAlbumAttrs | PageAttrs>;
+interface modelAssociation {
+    [key: string]: IncludeAssociation | any
+};
+
+type genericAttrs = PhotoAlbumAttrs | PageAttrs| PhotoAttrs;
+type modelInstance = ORM.Instance<genericAttrs> & genericAttrs;
+type genericProjectModel = ORM.Model<modelInstance, genericAttrs> & modelAssociation;
 
 interface modelsCollection {
     [key: string]: genericProjectModel
@@ -12,16 +19,14 @@ interface modelsCollection {
 
 export default class DatabaseProvider {
     private static configuration: Options;
-    private static connection: ORM.Sequelize
-    private static models: any = {};
+    private static connection: ORM.Sequelize;
+    private static models: modelsCollection = {};
 
     public static configure(databaseConfiguration: Options): void {
-        console.log("configure FIRED");
         DatabaseProvider.configuration = databaseConfiguration;
     }
 
     public static getConnection(): ORM.Sequelize {
-        console.log("GETCONNECTIONS FIRED");
         if (DatabaseProvider.connection) return DatabaseProvider.connection;
         if (!DatabaseProvider.configuration) throw new Error('DatabaseProvider is not configured yet.');
 
@@ -31,7 +36,7 @@ export default class DatabaseProvider {
                 console.log('Connection has been established successfully. Adding models');
                 DatabaseProvider.addModels(sequelize);
                 DatabaseProvider.associateModels();
-                // DatabaseProvider.syncDB();
+                DatabaseProvider.syncDB();
             })
             .catch((e)=> console.error('Unable to connect to the database:', e));
         return DatabaseProvider.connection = sequelize;
@@ -50,11 +55,12 @@ export default class DatabaseProvider {
         Object.values(models).forEach((model: genericProjectModel)=> model.sync({force: true}));
     }
 
-
     private static associateModels(): void {
         const {models} = DatabaseProvider;
-        const {PhotoAlbum, Page} = models;
-        DatabaseProvider.models.Page.PhotoAlbum = Page.belongsTo(PhotoAlbum);
+        const {PhotoAlbum, Page, Photo} = models;
         DatabaseProvider.models.PhotoAlbum.Pages = PhotoAlbum.hasMany(Page);
+        DatabaseProvider.models.Page.PhotoAlbum = Page.belongsTo(PhotoAlbum);
+        DatabaseProvider.models.Page.Photos = Page.hasMany(Photo);
+        DatabaseProvider.models.Photo.Page = Photo.belongsTo(Page);
     }
 }

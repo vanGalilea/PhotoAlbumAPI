@@ -1,13 +1,15 @@
 import * as ORM from 'sequelize';
 import {SequelizeAttributes} from '../types';
 import {PhotoAlbumAttrs} from "./PhotoAlbum";
+import {PhotoAttrs} from "./Photo";
 
 export interface PageAttrs {
     id?: number,
     photosCount?: number,
     createdAt?: string
     updatedAt?: string
-    PhotoAlbum?: any
+    PhotoAlbum?: PhotoAlbumAttrs
+    Photos?: PhotoAttrs[]
 }
 
 export type PageInstance = ORM.Instance<PageAttrs> & PageAttrs;
