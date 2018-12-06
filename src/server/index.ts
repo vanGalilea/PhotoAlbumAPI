@@ -12,11 +12,11 @@ export default class ApiServer implements HttpServer {
     public get(url: string, requestHandler: RequestHandler): void {
         this.addRoute('get', url, requestHandler);
     }
-    //
-    // public post(url: string, requestHandler: RequestHandler): void {
-    //     this.addRoute('post', url, requestHandler);
-    // }
-    //
+
+    public post(url: string, requestHandler: RequestHandler): void {
+        this.addRoute('post', url, requestHandler);
+    }
+
     // public delete(url: string, requestHandler: RequestHandler): void {
     //     this.addRoute('delete', url, requestHandler);
     // }

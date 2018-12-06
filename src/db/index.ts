@@ -1,17 +1,13 @@
 import * as ORM from 'sequelize';
 import {IncludeAssociation, Options} from 'sequelize';
 import MODELS from "../models";
-import {IAlbumAttrs} from "../models/Album";
-import {IPageAttrs} from "../models/Page";
-import {IPhotoAttrs} from "../models/Photo";
+import {genericAttrs, modelInstance} from "../types";
 
 interface IModelAssociation {
     [key: string]: IncludeAssociation
 };
 
-type genericAttrs = IAlbumAttrs | IPageAttrs| IPhotoAttrs;
-type modelInstance = ORM.Instance<genericAttrs> & genericAttrs;
-type genericProjectModel = ORM.Model<modelInstance, genericAttrs> & IModelAssociation;
+export type genericProjectModel = ORM.Model<modelInstance, genericAttrs> & IModelAssociation;
 
 interface IModelsCollection {
     [key: string]: genericProjectModel
