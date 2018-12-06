@@ -45,11 +45,6 @@ export default class DatabaseProvider {
         return DatabaseProvider.models;
     }
 
-    private static syncDB(): void {
-        const {models} = DatabaseProvider;
-        Object.values(models).forEach((model)=> model.sync({force: true}));
-    }
-
     private static associateModels(): void {
         const {models} = DatabaseProvider;
         const {Album, Page, Photo} = models;

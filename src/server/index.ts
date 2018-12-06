@@ -18,9 +18,9 @@ export default class ApiServer implements HttpServer {
         this.addRoute('post', url, requestHandler);
     }
 
-    // public delete(url: string, requestHandler: RequestHandler): void {
-    //     this.addRoute('delete', url, requestHandler);
-    // }
+    public delete(url: string, requestHandler: RequestHandler): void {
+        this.addRoute('delete', url, requestHandler);
+    }
     //
     // public put(url: string, requestHandler: RequestHandler): void {
     //     this.addRoute('put', url, requestHandler);

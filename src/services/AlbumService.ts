@@ -36,6 +36,11 @@ class AlbumService {
         return await this.getById(albumId);
     }
 
+    public async removeAll(): Promise<void> {
+        const models = dbProvider.getModels();
+        Object.values(models).forEach((model)=> model.sync({force: true}));
+    }
+
     //add here you rest CRUD implementations => create, delete, update
 }
 

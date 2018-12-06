@@ -1,0 +1,23 @@
+version: "3"
+services:
+  api:
+    environment:
+      DATABASE_HOST: postgres
+#    build service based on Dockerfile
+    build: .
+    command: npm run start
+    depends_on:
+      - postgres
+#    container's port is exposed and mapped to localhost:3000
+    ports:
+      - "3000:3000"
+  postgres:
+    image: postgres:11.1-alpine
+    restart: always
+#    overriding environment vars to create user, password and database
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: qwerty1
+      POSTGRES_DB: photoalbumdb
+    ports:
+      - 5431:5432
