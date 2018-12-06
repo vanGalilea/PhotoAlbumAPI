@@ -8,7 +8,7 @@ export default class AlbumController implements IController {
     public initialize(httpServer: HttpServer): void {
         httpServer.get('/albums', this.list);
         httpServer.get('/album/:id', this.getById);
-        httpServer.get('/album/:id/pdf', this.generatePdfById);
+        httpServer.get('/album/:id/html', this.viewAlbum);
         httpServer.post('/', this.create);
     }
 
@@ -22,9 +22,9 @@ export default class AlbumController implements IController {
         album ? res.send(album) : res.status(404).send('Not Found');
     }
 
-    private async generatePdfById(req: Request, res: Response): Promise<void> {
-        const album = await albumService.generatePDF(req.params.id);
-        album ? res.send(album) : res.status(404).send('Not Found');
+    private async viewAlbum(req: Request, res: Response): Promise<void> {
+        const album = await albumService.viewAlbum(req.params.id, res);
+        album ? res.render('index', { album }) : res.status(404).send('Not Found');
     }
 
     private async create(req: Request, res: Response): Promise<void> {
@@ -34,28 +34,28 @@ export default class AlbumController implements IController {
         sequelize.sync()
             .then(() => Album.create(
                 {
-                    title: "Gerri album",
-                    description: "The greatest journalist",
+                    title: "My album I",
+                    description: "This album is about animals",
                     Pages: [
                         {
-                            photosCount: 23,
+                            photosCount: 2,
                             Photos: [
                                 {url: "https://cdn-kiosk-api.telegraaf.nl/75740900-deb8-11e7-96da-81a0dd833b3d.jpg"},
-                                {url: "https://d1ielco78gv5pf.cloudfront.net/assets/clear-495a83e08fc8e5d7569efe6339a1228ee08292fa1f2bee8e0be6532990cb3852.gif"}
+                                {url: "http://roflzoo.com/pics/201409/tn_bunny-is-not-impressed.jpg"}
                             ]
                         },
                         {
-                            photosCount: 22,
+                            photosCount: 2,
                             Photos: [
-                                {url: "https://cdn-kiosk-api.telegraaf.nl/75740900-deb8-11e7-96da-81a0dd833b3d.jpg"},
-                                {url: "https://pbs.twimg.com/media/C9T88EHXsAAMKxn.jpg"}
+                                {url: "https://image.shutterstock.com/image-photo/colorful-photograph-isolated-alpaca-wild-450w-280228817.jpg"},
+                                {url: "https://img.izismile.com/img/img4/20110923/640/these_funny_animals_800_640_01.jpg"}
                             ]
 
                         },
                         {
-                            photosCount: 15,
+                            photosCount: 1,
                             Photos: [
-                                {url: "https://pbs.twimg.com/media/C9T88EHXsAAMKxn.jpg"}
+                                {url: "http://roflzoo.com/pics/042010/cute-little-bunny-tn.jpg"}
                             ]
                         },
                     ]

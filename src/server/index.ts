@@ -5,6 +5,7 @@ import {Application} from "express";
 import * as express from "express";
 import * as logger from "morgan";
 import * as bodyParser from "body-parser";
+import * as path from "path";
 
 export default class ApiServer implements HttpServer {
     private app: Application;
@@ -44,7 +45,8 @@ export default class ApiServer implements HttpServer {
         this.app.use(logger('dev'));
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended: false}));
-
+        this.app.set('views', path.join('src', 'views'));
+        this.app.set('view engine', 'pug');
         this.addControllers();
 
         this.app.listen(port, (err: any) => {

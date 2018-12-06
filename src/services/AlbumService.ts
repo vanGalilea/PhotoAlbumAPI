@@ -1,5 +1,6 @@
 import {modelInstance} from "../types";
 import dbProvider from "../db";
+import {Response} from 'express';
 
 class AlbumService {
     public async list(): Promise<modelInstance[]> {
@@ -31,36 +32,11 @@ class AlbumService {
     }
 
 
-    public async generatePDF(albumId: number): Promise<any> {
-        const album = await this.getById(albumId);
-        console.log(album)
+    public async viewAlbum(albumId: number, res: Response): Promise<modelInstance> {
+        return await this.getById(albumId);
     }
 
-    // public async create(albumId: number, song: Song): Promise<Song> {
-    //     const connection = await DatabaseProvider.getConnection();
-    //
-    //     // Normally DTO !== DB-Entity, so we "simulate" a mapping of both
-    //     const newSong = new Song();
-    //     newSong.title = song.title;
-    //     newSong.duration = song.duration;
-    //
-    //     const album = await connection.getRepository(Album).findOne(albumId);
-    //
-    //     if (!album) {
-    //         return;
-    //     }
-    //
-    //     newSong.album = album;
-    //
-    //     return await connection.getRepository(Song).save(newSong);
-    // }
-    //
-    // public async delete(id: number): Promise<Song> {
-    //     const connection = await DatabaseProvider.getConnection();
-    //     const repository = connection.getRepository(Song);
-    //     const entity = await repository.findOne(id);
-    //     return await repository.remove(entity)
-    // }
+    //add here you rest CRUD implementations => create, delete, update
 }
 
 export default new AlbumService();

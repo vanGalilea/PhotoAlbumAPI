@@ -1,0 +1,24 @@
+- var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+- var creationDate = new Date(album.createdAt).toLocaleDateString("en-US", options)
+- var lastChangeDate = new Date(album.updatedAt).toLocaleDateString("en-US", options)
+
+doctype html
+html
+    head
+        title Photo Album #{album.title}
+        style
+            include style.css
+    body
+        div(class="albumContainer")
+            h1= album.title
+            h4 Album info:
+            p Description: #{album.description}
+            p Created on: #{creationDate}
+            p Last change on: #{lastChangeDate}
+
+            each page, index in album.Pages
+                h2 Page number #{index + 1}
+                div(class="pageContainer")
+
+                    each photo in page.Photos
+                        img(src=photo.url)
