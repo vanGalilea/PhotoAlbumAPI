@@ -117,18 +117,25 @@ First you need to [install Docker and Docker Compose](https://docs.docker.com/co
 
 After installation, run the following command:  
 `git clone git@github.com:vanGalilea/PhotoAlbumAPI.git`
+
 `cd PhotoAlbumApi`
+
 `sudo docker-compose up`
 
 This will start a Photo album service instance in docker. You can check if it works by checking [http://localhost:8080/ping/](). It should say something like 'ping 💪'.
 
 #### Setting up a local Photo album service with your database
 1. create `.env` file in the root of the project:
+
 `git clone git@github.com:vanGalilea/PhotoAlbumAPI.git`
+
 `cd PhotoAlbumApi`
+
 `touch .env`
+
 `vim .env` open the file with VIM or with any other text editor
 Add the next environment variables:
+
 ```
 PORT=8080 #port of the service
 DATABASE_DIALECT=postgres #your data base type 'mysql'|'sqlite'|'postgres'|'mssql'
@@ -140,8 +147,11 @@ DATABASE_PORT=5432
 ```
 
 After creating the `.env` file run the following command:  
+
 `npm install`
+
 `npm run dev` or `npm start` 
+
 dev will run it with [nodemon](https://nodemon.io/) which will watch your changes and restart the service automatically.
 
 ---
