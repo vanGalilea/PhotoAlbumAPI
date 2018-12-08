@@ -10,7 +10,7 @@ services:
       - postgres
 #    container's port is exposed and mapped to localhost:3000
     ports:
-      - "3000:3000"
+      - "8080:8080"
   postgres:
     image: postgres:11.1-alpine
     restart: always
