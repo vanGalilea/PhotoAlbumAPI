@@ -10,6 +10,7 @@ import * as path from "path";
 export default class ApiServer implements HttpServer {
     private app: Application;
 
+    //here we add all routes to our app
     public get(url: string, requestHandler: RequestHandler): void {
         this.addRoute('get', url, requestHandler);
     }
@@ -21,11 +22,11 @@ export default class ApiServer implements HttpServer {
     public delete(url: string, requestHandler: RequestHandler): void {
         this.addRoute('delete', url, requestHandler);
     }
-    //
-    // public put(url: string, requestHandler: RequestHandler): void {
-    //     this.addRoute('put', url, requestHandler);
-    // }
-    //
+
+    public put(url: string, requestHandler: RequestHandler): void {
+        this.addRoute('put', url, requestHandler);
+    }
+
     private addRoute(method: 'get' | 'post' | 'put' | 'delete', url: string, requestHandler: RequestHandler): void {
         this.app[method](url, async (req, res, next) => {
             try {
@@ -40,11 +41,15 @@ export default class ApiServer implements HttpServer {
     }
 
     public start(port: number): void {
+        //basic configuration to start our app
         this.app = express();
 
+        //adding a logger
         this.app.use(logger('dev'));
+        //adding a middleware enabling parsing json from requests
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended: false}));
+        //configuring our views location with pug template
         this.app.set('views', path.join('src', 'views'));
         this.app.set('view engine', 'pug');
         this.addControllers();

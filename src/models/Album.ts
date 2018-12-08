@@ -13,6 +13,8 @@ export interface IAlbumAttrs {
 
 export type AlbumInstance = ORM.Instance<IAlbumAttrs> & IAlbumAttrs;
 
+//this is where we define a new model
+// we specify the model's attribute and the define it in our db
 export default (sequelize: ORM.Sequelize) => {
     const attributes: SequelizeAttributes<IAlbumAttrs> = {
         id: {

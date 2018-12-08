@@ -22,6 +22,7 @@ export default class DatabaseProvider {
         DatabaseProvider.configuration = databaseConfiguration;
     }
 
+    //here we configure and initialize the ORM which is SequelizeJS
     public static getConnection(): ORM.Sequelize {
         if (DatabaseProvider.connection) return DatabaseProvider.connection;
         if (!DatabaseProvider.configuration) throw new Error('DatabaseProvider is not configured yet.');
@@ -45,6 +46,7 @@ export default class DatabaseProvider {
         return DatabaseProvider.models;
     }
 
+    //associate your models here
     private static associateModels(): void {
         const {models} = DatabaseProvider;
         const {Album, Page, Photo} = models;

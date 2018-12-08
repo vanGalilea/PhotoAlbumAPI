@@ -4,6 +4,7 @@ import {Request, Response} from 'express';
 import albumService from "../services/AlbumService";
 
 export default class AlbumController implements IController {
+    //add here your extra routes
     public initialize(httpServer: HttpServer): void {
         httpServer.get('/albums', this.list);
         httpServer.get('/album/:id', this.getById);

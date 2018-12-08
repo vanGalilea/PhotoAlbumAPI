@@ -4,7 +4,7 @@ import {Response} from 'express';
 import * as ORM from 'sequelize';
 import {IAlbumAttrs} from "../models/Album";
 
-//add here you rest CRUD operations implementations
+//add here you rest CRUD operations implementations of a model
 
 class AlbumService {
     public async list(): Promise<modelInstance[]> {

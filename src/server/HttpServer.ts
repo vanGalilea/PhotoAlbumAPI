@@ -7,5 +7,5 @@ export interface HttpServer {
 
     delete(url: string, requestHandler: RequestHandler): void;
 
-    // put(url: string, requestHandler: RequestHandler): void;
+    put(url: string, requestHandler: RequestHandler): void;
 }
