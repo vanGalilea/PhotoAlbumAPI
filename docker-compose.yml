@@ -3,7 +3,8 @@ services:
   api:
     environment:
       DATABASE_HOST: postgres
-#    build service based from Dockerfile
+      PORT: 8080
+    #    build service based from Dockerfile
     build: .
     command: npm run start
     depends_on:
