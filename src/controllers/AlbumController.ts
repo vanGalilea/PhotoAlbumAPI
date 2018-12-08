@@ -10,7 +10,7 @@ export default class AlbumController implements IController {
         httpServer.get('/album/:id', this.getById);
         httpServer.get('/album/:id/html', this.viewAlbum);
         httpServer.post('/create', this.create);
-        httpServer.delete('/removeAll', this.removeAll);
+        httpServer.delete('/album/:id', this.remove);
     }
 
     private async list(req: Request, res: Response): Promise<void> {
@@ -24,13 +24,13 @@ export default class AlbumController implements IController {
     }
 
     private async viewAlbum(req: Request, res: Response): Promise<void> {
-        const album = await albumService.viewAlbum(req.params.id, res);
+        const album = await albumService.view(req.params.id, res);
         album ? res.render('index', { album }) : res.status(404).send('Not Found');
     }
 
-    private async removeAll(req: Request, res: Response): Promise<void> {
-        await albumService.removeAll();
-        res.status(200).send('Removed all');
+    private async remove(req: Request, res: Response): Promise<void> {
+        const deletedAlbumId = await albumService.remove(req.params.id);
+        res.status(200).send(`Removed album with id ${deletedAlbumId}`);
     }
 
     private async create(req: Request, res: Response): Promise<void> {

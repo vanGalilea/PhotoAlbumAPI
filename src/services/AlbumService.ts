@@ -32,13 +32,13 @@ class AlbumService {
     }
 
 
-    public async viewAlbum(albumId: number, res: Response): Promise<modelInstance> {
+    public async view(albumId: number, res: Response): Promise<modelInstance> {
         return await this.getById(albumId);
     }
 
-    public async removeAll(): Promise<void> {
-        const models = dbProvider.getModels();
-        Object.values(models).forEach((model)=> model.sync({force: true}));
+    public async remove(albumId: number): Promise<number> {
+        const {Album} = dbProvider.getModels();
+        return await Album.destroy({where: {id: albumId}})
     }
 
     //add here you rest CRUD implementations => create, delete, update
