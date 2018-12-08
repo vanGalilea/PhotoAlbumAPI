@@ -1,9 +1,11 @@
-#Photo album service
+# Photo album service
 The Photo album service is a CRUD service connected to a postgres database.
 At this moment all CRUD operations are functional beside the Update.
 
-##Endpoints
-####1. GET /albums ---> Retrieve all albums
+---
+
+## Endpoints
+#### 1. GET /albums ---> Retrieve all albums
 In order to retrieve all albums
 Response body:
 ```
@@ -38,7 +40,7 @@ Response body:
 ]
 ```
 
-####2. GET /album/:id ---> Retrieve single album
+#### 2. GET /album/:id ---> Retrieve single album
 In order to retrieve a single album by id
 Response body:
 ```
@@ -69,10 +71,10 @@ Response body:
 }
 ```
 
-####3. GET /album/:id/html ---> View single album  
+#### 3. GET /album/:id/html ---> View single album  
 In order to view a single album by id
 
-####4. POST /album ---> Remove single album  
+#### 4. POST /album ---> Remove single album  
 In order to remove a single album by id
 Request body:
 ```
@@ -103,12 +105,13 @@ Request body:
 }
 ```
 
-####5. DELETE /album/:id ---> Remove single album
+#### 5. DELETE /album/:id ---> Remove single album
 In order to remove a single album by id
 
+---
 
-##How to's
-####Setting up a local Photo album service with Docker 
+## How to's
+#### Setting up a local Photo album service with Docker 
 The easiest way to run the Photo album service locally is running it in a [Docker](https://www.docker.com/) container.  
 First you need to [install Docker and Docker Compose](https://docs.docker.com/compose/install/) on your machine.
 
@@ -119,7 +122,7 @@ After installation, run the following command:
 
 This will start a Photo album service instance in docker. You can check if it works by checking [http://localhost:8080/ping/](). It should say something like 'ping 💪'.
 
-####Setting up a local Photo album service with your database
+#### Setting up a local Photo album service with your database
 1. create `.env` file in the root of the project:
 `git clone git@github.com:vanGalilea/PhotoAlbumAPI.git`
 `cd PhotoAlbumApi`
@@ -141,6 +144,8 @@ After creating the `.env` file run the following command:
 `npm run dev` or `npm start` 
 dev will run it with [nodemon](https://nodemon.io/) which will watch your changes and restart the service automatically.
 
-##Resources
+---
+
+## Resources
 [Sequelize ORM docs](http://docs.sequelizejs.com/)  
 [Pug template (formerly known as "Jade")](https://pugjs.org/api/getting-started.html)  
