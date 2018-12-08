@@ -76,28 +76,17 @@ In order to view a single album by id
 
 #### 4. POST /album ---> Create a single album ✍️
 In order to remove a single album by id
-Request body:
+Request body (JSON):
 ```
 {
-    "id": 1,
-    "title": "My album I",
-    "description": "This album is about animals",
-    "createdAt": "2018-12-06T21:44:09.947Z",
-    "updatedAt": "2018-12-06T21:44:09.947Z",
+	"title": "My album",
+    "description": "This album is about...",
     "Pages": [
         {
-            "id": 1,
             "photosCount": 2,
-            "createdAt": "2018-12-06T21:44:09.966Z",
-            "updatedAt": "2018-12-06T21:44:09.966Z",
-            "AlbumId": 1,
             "Photos": [
                 {
-                    "id": 2,
-                    "url": "http://roflzoo.com/pics/201409/tn_bunny-is-not-impressed.jpg",
-                    "createdAt": "2018-12-06T21:44:09.976Z",
-                    "updatedAt": "2018-12-06T21:44:09.976Z",
-                    "PageId": 1
+                    "url": "http://roflzoo.com/pics/201409/tn_bunny-is-not-impressed.jpg"
                 }
             ]
         }
