@@ -29,9 +29,9 @@ export default class AlbumController implements IController {
     }
 
     private async remove(req: Request, res: Response): Promise<void> {
-        const deletedAlbumId = await albumService.remove(req.params.id);
-        deletedAlbumId > 0 ?
-            res.status(200).send(`Removed album with id ${deletedAlbumId}`) :
+        const deletedAlbumSucceed = await albumService.remove(req.params.id);
+        deletedAlbumSucceed > 0 ?
+            res.status(200).send(`Removed album with id ${req.params.id}`) :
             res.status(404).send('Not Found');
     }
 
