@@ -79,7 +79,7 @@ In order to remove a single album by id
 Request body (JSON):
 ```
 {
-	"title": "My album",
+    "title": "My album",
     "description": "This album is about...",
     "Pages": [
         {
